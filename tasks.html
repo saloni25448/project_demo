@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management | ProcrastiNot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="tasks.css">
+</head>
+<body>
+    <div class="tasks-container">
+    
+        <header class="tasks-header">
+            <div class="container">
+                <div class="logo">
+                    <i class="fas fa-tasks"></i>
+                    <h1>ProcrastiNot</h1>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                        <li><a href="tasks.html" class="active"><i class="fas fa-list-check"></i> Tasks</a></li>
+                        <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </header>
+
+        
+        <main class="tasks-main">
+            <div class="container">
+                
+
+                
+                <div class="task-management-cards">
+                    
+                    <div class="management-card">
+                        <div class="card-icon">
+                            <i class="fas fa-list-ol"></i>
+                        </div>
+                        <h3>Task List</h3>
+                        <p>View and manage all your tasks in one place. Filter by status, priority, or category.</p>
+                        <a href="tasklist.html" class="btn secondary">View Task List</a>
+                    </div>
+
+                
+                    <div class="management-card highlight">
+                        <div class="card-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <h3>Create Task</h3>
+                        <p>Add new tasks with details like due dates, priorities, and categories.</p>
+                        <a href="createtask.html" class="btn primary">Create New Task</a>
+                    </div>
+
+                    
+                    <div class="management-card">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3>Task Details</h3>
+                        <p>View comprehensive details about any task including progress and comments.</p>
+                        <a href="taskdetail.html" class="btn secondary">View Details</a>
+                    </div>
+                </div>
+
+            
+                <div class="quick-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-inbox"></i>
+                        <div>
+                            <span class="stat-number">42</span>
+                            <span class="stat-label">Total Tasks</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <span class="stat-number">28</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <span class="stat-number">10</span>
+                            <span class="stat-label">Pending</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <span class="stat-number">4</span>
+                            <span class="stat-label">Overdue</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        
+        <footer class="tasks-footer">
+            <div class="container">
+                <p>&copy; 2023 TaskMaster. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="tasks.js"></script>
+    
+
+</body>
+</html>

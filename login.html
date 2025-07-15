@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login | ProcrastiNot</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <header class="tasks-header">
+    <div class="container">
+      <div class="logo" style="cursor:pointer;" onclick="window.location.href='home.html'">
+        <i class="fas fa-tasks"></i>
+        <h1>ProcrastiNot</h1>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+          <li><a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a></li>
+          <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+      </nav>
+      <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="tasks-main" style="display:flex; justify-content:center; align-items:center; min-height: calc(100vh - 70px);">
+    <form id="loginForm" style="background: var(--white); padding: 30px; border-radius: var(--border-radius); box-shadow: var(--box-shadow); border: 1.5px solid #B4EBE6; width: 320px;">
+      <h2 style="color: var(--primary-color); text-align:center; margin-bottom: 25px;">Login to ProcrastiNot</h2>
+
+      <label for="email" style="font-weight: 600; margin-bottom: 6px; display: block;">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required />
+
+      <label for="password" style="font-weight: 600; margin-bottom: 6px; display: block;">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required />
+
+      <button type="submit" class="btn primary" style="width: 100%; margin-top: 15px;">Login</button>
+
+      <p style="margin-top: 20px; font-size: 0.9rem; color: var(--gray-color); text-align: center;">
+        Don't have an account? <a href="register.html" style="color: var(--primary-color); text-decoration: none;">Register</a>
+      </p>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Simple form validation & placeholder login logic
+      const email = e.target.email.value.trim();
+      const password = e.target.password.value.trim();
+      if (!email || !password) {
+        alert('Please fill in both fields.');
+        return;
+      }
+      // Replace with actual auth logic
+      alert('Login submitted for ' + email);
+      // Optionally redirect on success
+      // window.location.href = 'dashboard.html';
+    });
+  </script>
+  
+
+</body>
+</html>

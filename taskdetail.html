@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Detail Page</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="tasks-header">
+  <div class="container">
+    <div class="logo" style="cursor:pointer;" onclick="window.location.href='home.html'">
+      <i class="fas fa-tasks"></i>
+      <h1>ProcrastiNot</h1>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+        <li><a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a></li>
+        <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+    <button class="mobile-menu-btn" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+
+
+
+  <div class="container">
+    <div class="sidebar">
+      <h2>Tasks</h2>
+      <a href="createtask.html" class="nav-link">Create Task</a>
+      <a href="tasklist.html" class="nav-link">Task List</a>
+      <div id="taskList"></div>
+    </div>
+    <div class="task-details">
+      <div id="detailsView">
+        <p>Select a task to view details</p>
+      </div>
+      <div class="edit-form" id="editForm">
+        <h2>Edit Task</h2>
+        <input type="text" id="editName" placeholder="Task Name">
+        <textarea id="editDescription" placeholder="Task Description"></textarea>
+        <select id="editCategory">
+          <option value="Work">Work</option>
+          <option value="Home">Home</option>
+          <option value="Personal">Personal</option>
+          <option value="Urgent">Urgent</option>
+        </select>
+        <select id="editPriority">
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+        <input type="date" id="editStartDate">
+        <input type="date" id="editDueDate">
+        <select id="editStatus">
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <button class="btn btn-save" onclick="saveTask()">Save</button>
+        <button class="btn btn-cancel" onclick="cancelEdit()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    let selectedTaskId = null;
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function renderTaskList() {
+      $("#taskList").empty();
+      tasks.forEach(task => {
+        $("#taskList").append(`
+          <div class="task-item ${task.id === selectedTaskId ? 'active' : ''}" data-id="${task.id}">
+            ${task.name}
+          </div>
+        `);
+      });
+    }
+
+    function showTaskDetails(task) {
+      const today = new Date().setHours(0,0,0,0);
+  const due = new Date(task.dueDate).setHours(0,0,0,0);
+  const isOverdue = due < today && task.status !== 'Completed';
+      $("#detailsView").html(`
+        <h2>${task.name}</h2>
+        <p><span>Description:</span> ${task.description || 'No description'}</p>
+        <p><span>Category:</span> ${task.category}</p>
+        <p><span>Priority:</span> ${task.priority}</p>
+        <p><span>Start Date:</span> ${task.startDate}</p>
+        <p><span>Due Date:</span> ${task.dueDate}</p>
+        <p><span>Status:</span> ${task.status}</p>
+        <button class="btn btn-edit" onclick="editTask(${task.id})">Edit Task</button>
+        <button class="btn btn-delete" onclick="deleteTask(${task.id})">Delete Task</button>
+      `);
+      $("#editForm").hide();
+      $("#detailsView").show();
+    }
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = "toast show";
+  setTimeout(() => {
+    toast.className = "toast";
+  }, 3000);
+}
+
+    function editTask(id) {
+
+      const task = tasks.find(t => t.id === id);
+      $("#editName").val(task.name);
+      $("#editDescription").val(task.description);
+      $("#editCategory").val(task.category);
+      $("#editPriority").val(task.priority);
+      $("#editStartDate").val(task.startDate);
+      $("#editDueDate").val(task.dueDate);
+      $("#editStatus").val(task.status);
+      selectedTaskId = id;
+      $("#detailsView").hide();
+      $("#editForm").show();
+        $("#editName, #editStartDate, #editDueDate").removeClass("input-error");
+
+    }
+
+    function saveTask() {
+      const updatedTask = {
+        id: selectedTaskId,
+        name: $("#editName").val(),
+        description: $("#editDescription").val(),
+        category: $("#editCategory").val(),
+        priority: $("#editPriority").val(),
+        startDate: $("#editStartDate").val(),
+        dueDate: $("#editDueDate").val(),
+        status: $("#editStatus").val()
+      };
+      if (!updatedTask.name || !updatedTask.startDate || !updatedTask.dueDate) {
+  showToast("Please fill in all required fields.");
+  highlightErrors();
+  return;
+}
+
+      tasks = tasks.map(t => (t.id === selectedTaskId ? updatedTask : t));
+      saveTasks();
+      renderTaskList();
+      showToast("Task updated.");
+
+      showTaskDetails(updatedTask);
+    }
+    function highlightErrors() {
+  $("#editName, #editStartDate, #editDueDate").removeClass("input-error");
+
+  if (!$("#editName").val()) {
+    $("#editName").addClass("input-error");
+  }
+  if (!$("#editStartDate").val()) {
+    $("#editStartDate").addClass("input-error");
+  }
+  if (!$("#editDueDate").val()) {
+    $("#editDueDate").addClass("input-error");
+  }
+}
+
+
+    function cancelEdit() {
+      $("#editForm").hide();
+      $("#detailsView").show();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+saveTasks();
+selectedTaskId = null;
+renderTaskList();
+$("#detailsView").html("<p>Select a task to view details</p>");
+$("#editForm").hide();
+$("#detailsView").show();
+showToast("Task deleted.");
+
+    }
+
+    $(document).ready(function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      selectedTaskId = parseInt(urlParams.get('taskId'));
+      renderTaskList();
+      if (selectedTaskId) {
+        const task = tasks.find(t => t.id === selectedTaskId);
+        if (task) {
+          showTaskDetails(task);
+        }
+      }
+      $(document).on("click", ".task-item", function() {
+        selectedTaskId = parseInt($(this).data("id"));
+        window.history.pushState({}, '', `taskdetail.html?taskId=${selectedTaskId}`);
+        const task = tasks.find(t => t.id === selectedTaskId);
+        renderTaskList();
+        showTaskDetails(task);
+      });
+    });
+  </script>
+  <div id="toast" class="toast"></div>
+
+</body>
+</html>

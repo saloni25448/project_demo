@@ -1,0 +1,249 @@
+/* style-home.css */
+
+/* Reuse same color variables as style.css */
+:root {
+  --primary-color: #4361ee;
+  --primary-light: #e6e9fa;
+  --secondary-color: #3f37c9;
+  --accent-color: #4895ef;
+  --danger-color: #f72585;
+  --success-color: #4cc9f0;
+  --warning-color: #f8961e;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --gray-color: #6c757d;
+  --white: #ffffff;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+/* Container and header reuse */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.tasks-header {
+  background-color: var(--white);
+  box-shadow: var(--box-shadow);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.logo i {
+  font-size: 1.8rem;
+}
+
+.logo h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dark-color);
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: var(--dark-color);
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+  color: var(--white);
+  background-color: var(--primary-color);
+}
+
+.main-nav a i {
+  font-size: 1rem;
+}
+
+.btn-login {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 8px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-login:hover {
+  background-color: #3654bf;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--dark-color);
+}
+
+/* Main content area */
+.tasks-main {
+  flex: 1;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 70vh;
+}
+
+.tasks-header-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 40px;
+  text-align: center;
+  max-width: 700px;
+}
+
+.tasks-header-section h2 {
+  font-size: 2.4rem;
+  color: var(--dark-color);
+  margin: 0;
+}
+
+.tasks-header-section p {
+  color: var(--gray-color);
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+/* Search input */
+.task-search-input {
+  width: 100%;
+  max-width: 450px;
+  padding: 12px 16px;
+  border-radius: var(--border-radius);
+  border: 1.5px solid var(--primary-light);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.task-search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px var(--primary-light);
+}
+
+/* Suggestions dropdown */
+.task-suggestions {
+  position: absolute;
+  max-width: 450px;
+  width: 100%;
+  background: var(--white);
+  border: 1px solid var(--primary-light);
+  border-top: none;
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: var(--box-shadow);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  display: none;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.suggestion-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--primary-light);
+  color: var(--dark-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.suggestion-item:hover {
+  background-color: var(--primary-light);
+}
+
+.suggestion-meta {
+  color: var(--gray-color);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* Features List */
+.features-list {
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--dark-color);
+  font-size: 1.1rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.features-list li {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.feature-icon {
+  color: var(--success-color);
+  font-size: 1.2rem;
+  min-width: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 60px;
+    left: -100%;
+    width: 80%;
+    height: calc(100vh - 60px);
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
+    transition: left 0.3s ease;
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1000;
+  }
+
+  .main-nav.active {
+    left: 0;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+  }
+}

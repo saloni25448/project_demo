@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - Task Manager</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="tasks-header">
+  <div class="container">
+    <div class="logo" style="cursor:pointer;" onclick="window.location.href='home.html'">
+      <i class="fas fa-tasks"></i>
+      <h1>ProcrastiNot</h1>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+        <li><a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a></li>
+        <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+    <button class="mobile-menu-btn" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+
+  <header class="contact-header">
+    <h1>Contact Us</h1>
+    <nav>
+      <a href="#form">Contact Form</a>
+      <a href="#location">Our Location</a>
+      <a href="#social">Follow Us</a>
+    </nav>
+  </header>
+
+  <main class="contact-container">
+    <section id="form" class="contact-form">
+      <h2>We'd Love to Hear From You!</h2>
+      <form action="submit_form.php" method="POST">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your name"/>
+
+        <label for="email">Your Email</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email"/>
+
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" required placeholder="Enter your message"></textarea>
+
+        <button type="submit" class="btn-submit">Send Message</button>
+      </form>
+    </section>
+
+    <section id="social" class="social-links">
+      <h2>Follow Us</h2>
+      <div class="social-icons">
+        <a href="https://twitter.com/yourprofile" target="_blank">Twitter</a>
+        <a href="https://facebook.com/yourprofile" target="_blank">Facebook</a>
+        <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="contact-footer">
+    <p>&copy; 2025 Task Manager. All rights reserved.</p>
+  </footer>
+</body>
+</html>

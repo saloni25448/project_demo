@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | ProcrastiNot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="main.js"></script>
+    
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+   <header class="tasks-header">
+  <div class="container">
+    <div class="logo" style="cursor:pointer;" onclick="window.location.href='home.html'">
+      <i class="fas fa-tasks"></i>
+      <h1>ProcrastiNot</h1>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+        <li><a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a></li>
+        <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+    <button class="mobile-menu-btn" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Sidebar -->
+            <aside class="dashboard-sidebar">
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li>
+                            <a href="dashboard.html" class="active">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tasks.html">
+                                <i class="fas fa-list-check"></i>
+                                <span>My Tasks</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Calendar</span>
+                            </a>
+                        </li>
+                       
+                        <li>
+                            <a href="settings.html">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                   
+                    <a href="#" class="logout-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </aside>
+
+            
+            <div class="dashboard-content">
+                <div class="container">
+        
+                    <div class="content-header">
+                        <h2>Dashboard Overview</h2>
+                        <div class="date-filter">
+                            <button class="btn date-range-btn active">Today</button>
+                            <button class="btn date-range-btn">Week</button>
+                            <button class="btn date-range-btn">Month</button>
+                            <div class="custom-date-range">
+                                <input type="text" class="datepicker" placeholder="Custom range">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon total-tasks">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Tasks</h3>
+                                <p class="stat-value">42</p>
+                              
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon completed-tasks">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Completed</h3>
+                                <p class="stat-value">28</p>
+                                
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon pending-tasks">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Pending</h3>
+                                <p class="stat-value">10</p>
+                                
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon overdue-tasks">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Overdue</h3>
+                                <p class="stat-value">4</p>
+                        
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="charts-section">
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>Task Completion Rate</h3>
+                                <div class="chart-filter">
+                                    <select class="chart-period">
+                                        <option value="week">This Week</option>
+                                        <option value="month" selected>This Month</option>
+                                        <option value="year">This Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="completionChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>Tasks by Category</h3>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="tasks-section">
+                        <div class="recent-tasks">
+                            <div class="section-header">
+                                <h3>Recent Tasks</h3>
+                                <a href="tasks.html" class="view-all">View All</a>
+                            </div>
+                            <div class="task-list">
+                                <div class="task-item completed">
+                                    <div class="task-checkbox">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                    </div>
+                                    <div class="task-details">
+                                        <h4 class="task-title">Complete MWDW project </h4>
+                                        <div class="task-meta">
+                                            <span class="task-category work">Work</span>
+                                            <span class="task-priority high">High</span>
+                                            <span class="task-date">Due: Today</span>
+                                        </div>
+                                    </div>
+                                    <div class="task-actions">
+                                        <button class="btn-icon edit-task" title="Edit task">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="task-item in-progress">
+                                    <div class="task-checkbox">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </div>
+                                    <div class="task-details">
+                                        <h4 class="task-title">Football</h4>
+                                        <div class="task-meta">
+                                            <span class="task-category work">Work</span>
+                                            <span class="task-priority medium">Medium</span>
+                                            <span class="task-date">Due: Tomorrow</span>
+                                        </div>
+                                    </div>
+                                    <div class="task-actions">
+                                        <button class="btn-icon edit-task" title="Edit task">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="task-item pending">
+                                    <div class="task-checkbox">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </div>
+                                    <div class="task-details">
+                                        <h4 class="task-title">Buy Shreyan Lunch & Dinner</h4>
+                                        <div class="task-meta">
+                                            <span class="task-category personal">Personal</span>
+                                            <span class="task-priority low">Low</span>
+                                            <span class="task-date">Due: Fri, Jun 2</span>
+                                        </div>
+                                    </div>
+                                    <div class="task-actions">
+                                        <button class="btn-icon edit-task" title="Edit task">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="upcoming-deadlines">
+                            <div class="section-header">
+                                <h3>Upcoming Deadlines</h3>
+                                <a href="tasks.html" class="view-all">View All</a>
+                            </div>
+                            <div class="deadline-list">
+                                <div class="deadline-item urgent">
+                                    <div class="deadline-date">
+                                        <span class="day">17</span>
+                                        <span class="month">May</span>
+                                    </div>
+                                    <div class="deadline-details">
+                                        <h4 class="deadline-title">Minor Project Submission</h4>
+                                        <p class="deadline-project">Task Management website Project</p>
+                                        <div class="deadline-meta">
+                                            <span class="priority urgent">Urgent</span>
+                                            <span class="time-left">Today</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="deadline-item high">
+                                    <div class="deadline-date">
+                                        <span class="day">19</span>
+                                        <span class="month">May</span>
+                                    </div>
+                                    <div class="deadline-details">
+                                        <h4 class="deadline-title">Submit IDM Assignment report</h4>
+                                        <p class="deadline-project">Quarterly Review</p>
+                                        <div class="deadline-meta">
+                                            <span class="priority high">High</span>
+                                            <span class="time-left">2 days left</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="deadline-item medium">
+                                    <div class="deadline-date">
+                                        <span class="day">20</span>
+                                        <span class="month">May</span>
+                                    </div>
+                                    <div class="deadline-details">
+                                        <h4 class="deadline-title">AAD 2 Assigment Submission</h4>
+                                        <p class="deadline-project">Assignment</p>
+                                        <div class="deadline-meta">
+                                            <span class="priority medium">Medium</span>
+                                            <span class="time-left">3 days left</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                 
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+    
+</body>
+</html>

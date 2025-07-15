@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Creation Page</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="tasks-header">
+  <div class="container">
+    <div class="logo" style="cursor:pointer;" onclick="window.location.href='home.html'">
+      <i class="fas fa-tasks"></i>
+      <h1>ProcrastiNot</h1>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+        <li><a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a></li>
+        <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+    <button class="mobile-menu-btn" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+
+
+  <div class="container">
+    <div class="sidebar">
+      <h2>Task Manager</h2>
+      <a href="createtask.html" class="active">Create Task</a>
+      <a href="tasklist.html">Task List</a>
+      <a href="taskdetail.html">Task Details</a>
+    </div>
+    <div class="main-content">
+      <div class="task-form">
+        <h1>Create New Task</h1>
+        <input type="text" id="taskName" placeholder="Task Name">
+        <textarea id="taskDescription" placeholder="Task Description"></textarea>
+        <select id="category">
+          <option value="Work">Work</option>
+          <option value="Home">Home</option>
+          <option value="Personal">Personal</option>
+          <option value="Urgent">Urgent</option>
+        </select>
+        <select id="priority">
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+        <input type="date" id="startDate">
+        <input type="date" id="dueDate">
+        <select id="status">
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <div>
+          <button class="btn btn-save" onclick="saveTask()">Save Task</button>
+          <button class="btn btn-cancel" onclick="clearForm()">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = "toast show";
+  setTimeout(() => {
+    toast.className = "toast";
+  }, 3000); // visible for 3 seconds
+}
+
+    function saveTask() {
+  // Clear previous errors
+  $("#taskName, #startDate, #dueDate").removeClass("input-error");
+
+  let hasError = false;
+
+  if (!$("#taskName").val()) {
+    $("#taskName").addClass("input-error");
+    hasError = true;
+  }
+  if (!$("#startDate").val()) {
+    $("#startDate").addClass("input-error");
+    hasError = true;
+  }
+  if (!$("#dueDate").val()) {
+    $("#dueDate").addClass("input-error");
+    hasError = true;
+  }
+
+  if (hasError) {
+    showToast("Please fill in all required fields.");
+    return;
+  }
+
+  const task = {
+    id: Date.now(),
+    name: $("#taskName").val(),
+    description: $("#taskDescription").val(),
+    category: $("#category").val(),
+    priority: $("#priority").val(),
+    startDate: $("#startDate").val(),
+    dueDate: $("#dueDate").val(),
+    status: $("#status").val()
+  };
+
+  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  tasks.push(task);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+
+  showToast("Task saved successfully!");
+  clearForm();
+}
+
+
+    function clearForm() {
+      $("#taskName").val("");
+      $("#taskDescription").val("");
+      $("#category").val("Work");
+      $("#priority").val("High");
+      $("#startDate").val("");
+      $("#dueDate").val("");
+      $("#status").val("Pending");
+    }
+
+    $(document).ready(function() {
+      clearForm();
+    });
+  </script>
+  <div id="toast" class="toast"></div>
+
+</body>
+</html>

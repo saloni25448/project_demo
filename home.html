@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome to ProcrastiNot</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    #suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff; /* solid white background */
+  border: 1px solid #e6e9fa; /* light blue border */
+  border-top: none;
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 0 0 8px 8px;
+  display: none;
+  z-index: 1000;
+  box-sizing: border-box;
+  margin-top: 4px;
+  opacity: 1 !important;   /* fully opaque */
+  filter: none !important;
+}
+
+.suggestion-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #e6e9fa;
+  color: #212529; /* dark color */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff; /* ensure solid background */
+}
+
+.suggestion-item:hover {
+  background-color: #e6e9fa; /* light blue hover */
+}
+
+.suggestion-meta {
+  color: #6c757d; /* gray color */
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+    /* To position suggestions container below input */
+    .search-wrapper {
+      position: relative;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <header class="tasks-header">
+    <div class="container">
+      <div class="logo" style="cursor:pointer;" onclick="window.location.href='dashboard.html'">
+        <i class="fas fa-tasks"></i>
+        <h1>ProcrastiNot</h1>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="dashboard.html" class="active"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+          <li><a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a></li>
+          <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+      </nav>
+      <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="tasks-main" style="padding: 60px 20px; max-width: 900px; margin: 0 auto;">
+    <section style="text-align: center; margin-bottom: 40px;">
+      <div class="logo" style="justify-content:center; margin-bottom: 15px;">
+        <i class="fas fa-tasks" style="font-size: 3rem; color: var(--primary-color);"></i>
+        <h1 style="font-size: 2.8rem; margin: 0; color: var(--dark-color); font-weight: 700;">Welcome to ProcrastiNot</h1>
+      </div>
+      <p style="color: var(--gray-color); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+        Your all-in-one task management app to organize, track, and complete your daily tasks efficiently.
+      </p>
+    </section>
+
+    <section style="margin-bottom: 50px; text-align: center;">
+      <form id="searchForm" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+        <div class="search-wrapper" style="flex: 1; min-width: 280px;">
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search tasks..." 
+            autocomplete="off"
+            style="width: 100%; padding: 12px 16px; border-radius: var(--border-radius); border: 1.5px solid var(--primary-light); font-size: 1rem;"
+          />
+          <div id="suggestions"></div>
+        </div>
+        <button 
+          type="submit" 
+          class="btn primary"
+          style="padding: 12px 24px; font-weight: 700; white-space: nowrap;"
+        >
+          <i class="fas fa-search"></i> Search
+        </button>
+      </form>
+      <div id="searchResults" style="max-width: 500px; margin: 20px auto 0; color: var(--dark-color);"></div>
+    </section>
+
+    <section>
+      <h2 style="color: var(--primary-color); margin-bottom: 20px; text-align: center;">Key Features</h2>
+      <ul style="list-style: none; padding: 0; max-width: 700px; margin: 0 auto; color: var(--dark-color); font-size: 1.1rem;">
+        <li style="margin-bottom: 15px;">
+          <i class="fas fa-check-circle" style="color: var(--success-color); margin-right: 12px;"></i>
+          Create and manage tasks with due dates, priorities, and categories.
+        </li>
+        <li style="margin-bottom: 15px;">
+          <i class="fas fa-filter" style="color: var(--accent-color); margin-right: 12px;"></i>
+          Filter and search tasks quickly to focus on what matters.
+        </li>
+        <li style="margin-bottom: 15px;">
+          <i class="fas fa-bell" style="color: var(--warning-color); margin-right: 12px;"></i>
+          Get notified about upcoming deadlines and overdue tasks.
+        </li>
+        <li style="margin-bottom: 15px;">
+          <i class="fas fa-users" style="color: var(--secondary-color); margin-right: 12px;"></i>
+          Collaborate and share tasks with team members.
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="tasks-footer" style="margin-top: 60px;">
+    <div class="container">
+      <p>&copy; 2025 ProcrastiNot. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="contact.html">Contact Us</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const suggestions = document.getElementById('suggestions');
+    const searchResults = document.getElementById('searchResults');
+    const searchForm = document.getElementById('searchForm');
+
+    function renderSuggestions(tasks) {
+      if (!tasks.length) {
+        suggestions.style.display = 'none';
+        suggestions.innerHTML = '';
+        return;
+      }
+      suggestions.innerHTML = tasks.map(task => `
+        <div class="suggestion-item" tabindex="0" role="button" aria-pressed="false" aria-label="Task ${task.name}" >
+          <strong>${task.name}</strong> — <span class="suggestion-meta">${task.category}, ${task.priority} priority</span>
+        </div>
+      `).join('');
+      suggestions.style.display = 'block';
+
+      // Attach click handlers
+      document.querySelectorAll('.suggestion-item').forEach((elem, idx) => {
+        elem.onclick = () => {
+          window.location.href = `taskdetail.html?taskId=${tasks[idx].id}`;
+        };
+        elem.onkeydown = e => {
+          if(e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            window.location.href = `taskdetail.html?taskId=${tasks[idx].id}`;
+          }
+        };
+      });
+    }
+
+    function clearSuggestions() {
+      suggestions.style.display = 'none';
+      suggestions.innerHTML = '';
+    }
+
+    function clearResults() {
+      searchResults.innerHTML = '';
+    }
+
+    function showResults(tasks) {
+      if (tasks.length === 0) {
+        searchResults.innerHTML = '<p>No tasks found.</p>';
+        return;
+      }
+      if (tasks.length === 1) {
+        // Redirect to task detail if one match
+        window.location.href = `taskdetail.html?taskId=${tasks[0].id}`;
+        return;
+      }
+      // Show list of matching tasks if multiple
+      searchResults.innerHTML = '<p>Multiple matches found:</p><ul style="list-style:none; padding-left:0;">' + 
+        tasks.map(task => `<li style="margin-bottom: 10px; cursor:pointer; color: var(--primary-color);" onclick="window.location.href='taskdetail.html?taskId=${task.id}'">${task.name}</li>`).join('') + 
+        '</ul>';
+    }
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim().toLowerCase();
+      clearResults();
+      if (!query) {
+        clearSuggestions();
+        return;
+      }
+      const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      const filtered = tasks.filter(task => 
+        task.name.toLowerCase().includes(query) ||
+        (task.description && task.description.toLowerCase().includes(query)) ||
+        task.category.toLowerCase().includes(query) ||
+        task.priority.toLowerCase().includes(query) ||
+        task.status.toLowerCase().includes(query)
+      );
+      renderSuggestions(filtered.slice(0, 5)); // show top 5 suggestions
+    });
+
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const query = searchInput.value.trim().toLowerCase();
+      clearSuggestions();
+      clearResults();
+      if (!query) {
+        alert('Please enter a search term.');
+        return;
+      }
+      const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      const filtered = tasks.filter(task => 
+        task.name.toLowerCase().includes(query) ||
+        (task.description && task.description.toLowerCase().includes(query)) ||
+        task.category.toLowerCase().includes(query) ||
+        task.priority.toLowerCase().includes(query) ||
+        task.status.toLowerCase().includes(query)
+      );
+      showResults(filtered);
+    });
+
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!suggestions.contains(e.target) && e.target !== searchInput) {
+        clearSuggestions();
+      }
+    });
+  </script>
+ 
+
+</body>
+</html>

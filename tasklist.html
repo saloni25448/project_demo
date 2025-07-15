@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task List Page</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <header class="tasks-header">
+  <div class="container">
+    <div class="logo" style="cursor:pointer;" onclick="window.location.href='home.html'">
+      <i class="fas fa-tasks"></i>
+      <h1>ProcrastiNot</h1>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+        <li><a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a></li>
+        <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+    <button class="mobile-menu-btn" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+
+
+
+  <div class="container">
+    <div class="sidebar">
+      <h2>Task Manager</h2>
+      <a href="createtask.html">Create Task</a>
+      <a href="#" class="active" data-filter="all">All Tasks</a>
+      <a href="#" data-filter="Work">Work</a>
+      <a href="#" data-filter="Home">Home</a>
+      <a href="#" data-filter="Personal">Personal</a>
+      <a href="#" data-filter="Urgent">Urgent</a>
+      <a href="#" data-filter="completed">Completed Tasks</a>
+      <a href="#" data-filter="pending">Pending Tasks</a>
+      <a href="taskdetail.html">Task Details</a>
+    </div>
+    <div class="main-content">
+      <div class="task-header">
+        <h1>Task List</h1>
+        <a href="createtask.html" class="btn btn-add">Add Task</a>
+      </div>
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="taskList"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal" id="taskModal">
+    <div class="modal-content">
+      <h2 id="modalTitle">Edit Task</h2>
+      <input type="text" id="taskName" placeholder="Task Name">
+      <textarea id="taskDescription" placeholder="Task Description"></textarea>
+      <select id="category">
+        <option value="Work">Work</option>
+        <option value="Home">Home</option>
+        <option value="Personal">Personal</option>
+        <option value="Urgent">Urgent</option>
+      </select>
+      <select id="priority">
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <input type="date" id="startDate">
+      <input type="date" id="dueDate">
+      <select id="status">
+        <option value="Pending">Pending</option>
+        <option value="Completed">Completed</option>
+      </select>
+      <div>
+        <button class="btn btn-save" onclick="saveTask()">Save</button>
+        <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    let editingTaskId = null;
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function renderTasks(filter = 'all') {
+     $("#taskList").empty();
+  const today = new Date().setHours(0,0,0,0);
+  let filteredTasks = tasks;
+
+  if (filter === 'completed') {
+    filteredTasks = tasks.filter(t => t.status === 'Completed');
+  } else if (filter === 'pending') {
+    filteredTasks = tasks.filter(t => t.status === 'Pending');
+  } else if (filter === 'overdue') {
+    filteredTasks = tasks.filter(t => {
+      const due = new Date(t.dueDate).setHours(0,0,0,0);
+      return due < today && t.status !== 'Completed';
+    });
+  } else if (['Work', 'Home', 'Personal', 'Urgent'].includes(filter)) {
+    filteredTasks = tasks.filter(t => t.category === filter);
+  } 
+      filteredTasks.forEach(task => {
+        $("#taskList").append(`
+          <tr>
+            <td><a href="taskdetail.html?taskId=${task.id}">${task.name}</a></td>
+            <td>${task.startDate}</td>
+            <td>${task.dueDate}</td>
+            <td>${task.category}</td>
+            <td>${task.status}</td>
+            <td>
+              <button class="btn btn-edit" onclick="openEditModal(${task.id})">Edit</button>
+              <button class="btn btn-delete" onclick="deleteTask(${task.id})">Delete</button>
+            </td>
+          </tr>
+        `);
+      });
+    }
+
+    function openEditModal(id) {
+  const task = tasks.find(t => t.id === id);
+  $("#modalTitle").text("Edit Task");
+  $("#taskName").val(task.name);
+  $("#taskDescription").val(task.description);
+  $("#category").val(task.category);
+  $("#priority").val(task.priority);
+  $("#startDate").val(task.startDate);
+  $("#dueDate").val(task.dueDate);
+  $("#status").val(task.status);
+  editingTaskId = id;
+
+  const modal = $("#taskModal");
+  modal.css("display", "flex"); // <-- Important
+  modal.removeClass("hide").addClass("show");
+}
+
+
+function closeModal() {
+  const modal = $("#taskModal");
+  modal.removeClass("show").addClass("hide");
+
+  // Wait for fade-out to complete before hiding
+  setTimeout(() => {
+    modal.css("display", "none");
+    modal.removeClass("hide");
+
+    // Clear fields
+    $("#taskName").val("");
+    $("#taskDescription").val("");
+    $("#category").val("Work");
+    $("#priority").val("Medium");
+    $("#startDate").val("");
+    $("#dueDate").val("");
+    $("#status").val("Pending");
+    editingTaskId = null;
+  }, 200); // Match fadeOutScale animation duration
+}
+
+
+
+    function saveTask() {
+      const task = {
+        id: editingTaskId,
+        name: $("#taskName").val(),
+        description: $("#taskDescription").val(),
+        category: $("#category").val(),
+        priority: $("#priority").val(),
+        startDate: $("#startDate").val(),
+        dueDate: $("#dueDate").val(),
+        status: $("#status").val()
+      };
+      if (!task.name || !task.startDate || !task.dueDate) {
+  showToast("Please fill in all required fields.");
+  return;
+}
+// ...
+showToast("Task saved successfully!");
+
+      tasks = tasks.map(t => (t.id === editingTaskId ? task : t));
+      saveTasks();
+      renderTasks($(".sidebar a.active").data("filter"));
+      showToast("Task updated."); // ← Add this line here
+
+      closeModal();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+saveTasks();
+renderTasks($(".sidebar a.active").data("filter"));
+showToast("Task deleted.");
+
+    }
+    function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = "toast show";
+  setTimeout(() => {
+    toast.className = "toast";
+  }, 3000); // visible for 3 seconds
+}
+
+
+    $(document).ready(function() {
+      renderTasks();
+      $(".sidebar a").click(function(e) {
+  const href = $(this).attr('href');
+  if (href && href !== "#") return; // Allow navigation for actual pages
+
+  e.preventDefault();
+  $(".sidebar a").removeClass("active");
+  $(this).addClass("active");
+  renderTasks($(this).data("filter"));
+});
+
+    });
+  </script>
+  <div id="toast" class="toast"></div>
+
+
+</body>
+</html>
